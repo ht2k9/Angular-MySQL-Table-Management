@@ -1,0 +1,20 @@
+<div class="container-fluid pt-5 h-100">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="border border-primary shadow bg-primary h-100">
+                <ul class="list-group list-group-flush">
+                    <li *ngFor="let table of tables; let i=index" class="list-group-item bg-transparent text-light">
+                        <a class="text-capitalize font-weight-bold" 
+                        style="cursor: pointer" 
+                        (click)="onSidebarClick(table.route)">
+                        {{ table.title }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <app-table *ngIf="canLoad" [data]="data"></app-table>
+        </div>
+    </div>
+</div>

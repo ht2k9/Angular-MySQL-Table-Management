@@ -1,0 +1,112 @@
+<div class="row mt-3 align-middle">
+    <div class="col">
+      <div class="card bg-light text-center">
+        <div class="card-body">
+            <h3 class="card-title">
+              {{ items.length }}
+              <span> {{ tableData.title }}</span>
+            </h3>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="cursor:pointer" (click)="isCollapsed = !isCollapsed">
+      <div class="bg-light card text-center">
+        <div class="card-body">
+          <h3 class="card-title"
+            [attr.aria-expanded]="!isCollapsed"
+            aria-controls="collapseExample">
+            Add {{ tableData.title }}
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isCollapsed" class="card bg-light mt-3">
+    <div class="card-header">
+      Add a new {{ tableData.title }}
+    </div>
+    <div class="card-body">
+      <form  (ngSubmit)="onSubmit(frm)" #frm="ngForm">
+        <div *ngFor="let column of tableData.formTemplate" class="form-group form-row">
+          <label  *ngIf="column.type != 'hidden'" class="form-label col-sm-2" [for]="column.title">{{ column.title }}</label>
+          <input
+            class="form-control col-sm-10"
+            [type]="column.type"
+            [id]="column.title"
+            [placeholder]="column.placeholder" 
+            [name]="column.title"
+            ngModel>
+        </div>
+        <ng-container *ngIf="tableData.relations" class="form-group row">
+          <ng-container *ngFor="let relation of tableData.relations; let i = index">
+            <input class="form-control col" placeholder="filter results" name="filter" [(ngModel)]="query" [ngModelOptions]="{standalone: true}">
+            <select class="form-control col" [name]="relation.key" ngModel required>
+              <option value="" disabled selected>{{ relation.placeholder }}</option>
+              <option *ngFor="let opt of options[i] | searchPipe:'name':query" [value]="opt[relation.key]">
+                {{ opt.name }}
+              </option>
+            </select>
+            </ng-container>
+        </ng-container>
+          <button type="submit" [disabled]="!frm.form.valid" class="btn btn-success align-middle mt-2">Submit</button>
+      </form>
+    </div>
+    <div class="card-footer text-danger">
+        {{ errorMsg }}
+    </div>
+  </div>
+
+  <div class="card mt-3">
+    <div class="card-header">
+      {{ tableData.title }}'s Data
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table table-bordered table-hover table-primary">
+        <thead>
+          <tr>
+            <th *ngFor="let column of tableData.formTemplate" scope="col">
+              <div *ngIf="tableData.primaryKey != column.title">  
+                {{ column.title }}
+              </div>  
+            </th>
+            <th>Orders</th>
+            <th>X</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items; let i = index">
+            <td *ngFor="let column of tableData.formTemplate"> 
+              <div *ngIf="tableData.primaryKey != column.title">
+                <p>{{ item[column.title] }}</p>
+              </div>
+            </td>
+            <td><button (click)="onShowOrders(item[tableData.primaryKey])" class="btn btn-primary">{{ orders.length }}</button></td>
+            <td>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Action
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <button (click)="onEdit(i, frm)" class="btn btn-danger dropdown-item">Edit</button>
+                  <button (click)="onDelete(item[tableData.primaryKey], i)" class="dropdown-item">Delete</button>
+                  <button *ngIf="tableData.title == 'Orders' && item.completed == 0" (click)="onShowDetails(item[tableData.primaryKey])" class="dropdown-item">Complete</button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
