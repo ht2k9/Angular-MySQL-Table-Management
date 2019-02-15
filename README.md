@@ -40,3 +40,8 @@ Add the hosting path and http options: `frontend/components/shared/database.serv
 
 ## License
 Free for all.
+
+## Examples
+![website](https://i.ibb.co/X83xcqd/3.png)
+![tablet](https://i.ibb.co/zXpjPCJ/ipad1.png)
+![phone](https://i.ibb.co/GMQgMHR/phone1.png)
