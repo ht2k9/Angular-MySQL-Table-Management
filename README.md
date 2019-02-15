@@ -42,6 +42,6 @@ Add the hosting path and http options: `frontend/components/shared/database.serv
 Free for all.
 
 ## Examples
-![website](https://i.ibb.co/X83xcqd/3.png)
+![website](https://i.ibb.co/xMNt6sF/website1.png)
 ![tablet](https://i.ibb.co/zXpjPCJ/ipad1.png)
 ![phone](https://i.ibb.co/GMQgMHR/phone1.png)
